@@ -45,7 +45,7 @@ install_ruby() {
   if [ ! -f "$RUBY_SRC_FILE" ];
   then
     print_line "Downloading Ruby source"
-    curl -o $RUBY_VER_TMP/ruby-$RUBY_VER.tar.gz $RUBY_SRC_URL/ruby-$RUBY_VER.tar.gz >> $RUBY_INST_LOG_FILE 2>&1
+    curl -o $RUBY_VER_TMP/ruby-$RUBY_VER.tar.gz -L $RUBY_SRC_URL/ruby-$RUBY_VER.tar.gz >> $RUBY_INST_LOG_FILE 2>&1
   fi
 
   print_line  "Untar'ing Ruby source"

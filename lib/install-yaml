@@ -22,7 +22,7 @@ install_yaml() {
   if [ ! -f "$YAML_SRC_FILE" ];
   then
     print_line "Downloading YAML source"
-    curl -o $YAML_VER_TMP/yaml-$YAML_VER.tar.gz $YAML_SRC_URL/yaml-$YAML_VER.tar.gz >> $YAML_INST_LOG_FILE 2>&1
+    curl -o $YAML_VER_TMP/yaml-$YAML_VER.tar.gz -L $YAML_SRC_URL/yaml-$YAML_VER.tar.gz >> $YAML_INST_LOG_FILE 2>&1
   fi
 
   print_line  "Untar'ing YAML source"
