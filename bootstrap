@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+set -e # exit the script if any statement returns a non-true result
+
+retrieve_genesis() {
+  # Download Genesis master branch from Github
+  curl -s -o /tmp/genesis-master.zip -L https://github.com/lubanrb/genesis/archive/master.zip
+  # Unzip Genesis to /tmp
+  unzip -q /tmp/genesis-master.zip -d /tmp/ 
+}
+
+cleanup() {
+  # Clean up Genesis
+  rm -fr /tmp/genesis-master
+  rm -fr /tmp/genesis-master.zip  
+}
+
+# Upon exit, remove tmp files
+trap "cleanup" INT TERM EXIT
+
+# Retrieve Genesis
+retrieve_genesis
+# Install Genesis
+/tmp/genesis-master/install $@
+
