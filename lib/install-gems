@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+# ==================
+# Default Gems Setup
+# ==================
+
+create_gems_binstubs() {
+  print_line "Creating gems binstubs ..."
+  for f in $RUBY_VER_DIR/bin/*
+  do
+    ln -fs $f $LUBAN_BIN/ >> $RUBY_INST_LOG_FILE 2>&1
+  done
+}
+
+install_gem_bundler() {
+  print_line "Install gem Bundler"
+
+  if [[ -z "$BUNDLER_VER" ]]; then
+    $LUBAN_BIN/gem install bundler $RDOC_OPTIONS >> $RUBY_INST_LOG_FILE 2>&1
+  else
+    $LUBAN_BIN/gem install bundler --version $BUNDLER_VER $RDOC_OPTIONS >> $RUBY_INST_LOG_FILE 2>&1
+  fi
+}
+
+setup_gem_bundler() {
+  print_step "Setup gem Bundler $BUNDLER_VER"
+
+  if [ -e "$RUBY_VER_DIR/bin/bundle" ];
+  then
+    if ! $FORCE_INSTALL;
+    then
+      print_line "Bundler $BUNDLER_VER setup is skipped: installed ALREADY"
+      return
+    fi
+  fi
+
+  install_gem_bundler
+  create_gems_binstubs
+}
+
+install_default_gems() {
+  setup_gem_bundler
+}
+
+setup_default_gems() {
+  print_task "Setup default gems"
+
+  install_default_gems
+}

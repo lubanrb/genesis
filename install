@@ -1,0 +1,129 @@
+#!/usr/bin/env bash
+
+set -e # exit the script if any statement returns a non-true result
+
+# Luban Genesis is used to bootstrap the Uber application environment
+
+# Color codes
+CGREY=$(tput setaf 0)
+CRED=$(tput setaf 1)
+CGREEN=$(tput setaf 2)
+CYELLOW=$(tput setaf 3)
+CBLUE=$(tput setaf 4)
+CMAGENTA=$(tput setaf 5)
+CCYAN=$(tput setaf 6)
+CWHITE=$(tput setaf 7)
+CBOLD=$(tput bold)
+CUNDERLINE=$(tput sgr 0 1)
+CRESET=$(tput sgr0)
+
+print_task() {
+  echo "[$(date +"%H:%M")]" $CBOLD$CYELLOW$@$CRESET
+}
+
+print_step() {
+  echo "        "$CCYAN$@$CRESET
+}
+
+print_line() {
+  echo "        - "$@$CRESET
+}
+
+resolve_link() {
+  $(type -p greadlink readlink | head -1) "$1"
+}
+
+expand_path() {
+  echo $(cd $1 && pwd)
+}
+
+configure_genesis_default_options() {
+  print_line "Configure Genesis default options"
+
+  DEPLOY_USER="$USER"
+  LUBAN_INSTALL_PATH="/opt/luban"
+  SSH_PORT=22
+  FORCE_INSTALL=false
+  UBER_STAGE="development"
+  UBER_ENV="uber"
+
+  YAML_VER="0.1.5"
+  YAML_SRC_URL="http://pyyaml.org/download/libyaml"
+  RUBY_VER="2.2.2"
+  OPENSSL_DIR="/usr"
+  RUBY_SRC_URL="http://ftp.ruby-lang.org/pub/ruby/${RUBY_VER%.*}"
+  RDOC_OPTIONS="--no-document"
+  BUNDLER_VER=""
+}
+
+configure_genesis_constom_options() {
+  # Load Genesis custom options from config file if specified
+  if [[ ! -z "$GENESIS_CONFIG_FILE" ]]; then
+    print_line "Configure Genesis custom options from file \"$GENESIS_CONFIG_FILE\""
+    source $GENESIS_CONFIG_FILE
+  fi
+}
+
+configure_genesis_system_options() {
+  print_line "Configure Genesis system options"
+
+  DEPLOY_ROOT=$(dirname $GENESIS_ROOT)
+  UBER_ENV_ROOT="$LUBAN_INSTALL_PATH/env/$UBER_STAGE.$UBER_ENV"
+  LUBAN_PKG="$UBER_ENV_ROOT/.luban/pkg"
+  LUBAN_BIN="$UBER_ENV_ROOT/.luban/bin"
+  LUBAN_TMP="$LUBAN_INSTALL_PATH/tmp"
+}
+
+configure_genesis() {
+  print_step "Configure Genesis"
+
+  configure_genesis_default_options
+  configure_genesis_constom_options
+  configure_genesis_system_options
+}
+
+make_genesis_directories() {
+  print_step "Make Genesis directories"
+
+  mkdir -p $LUBAN_PKG
+  mkdir -p $LUBAN_BIN
+  mkdir -p $LUBAN_TMP
+}
+
+load_genesis_modules() {
+  print_step "Load Genesis modules"
+
+  source $GENESIS_ROOT/lib/install-yaml
+  source $GENESIS_ROOT/lib/install-ruby
+  source $GENESIS_ROOT/lib/install-gems
+}
+
+init_genesis() {
+  print_task "Initialize Genesis"
+
+  configure_genesis
+  make_genesis_directories
+  load_genesis_modules
+}
+
+build_genesis() {
+  setup_ruby
+  setup_default_gems
+}
+
+show_genesis_version() {
+  GENESIS_VERSION=$(cat $GENESIS_ROOT/version)
+  echo "Luban Genesis version $GENESIS_VERSION"
+  echo
+}
+
+setup_genesis() {
+  GENESIS_ROOT=$(expand_path $(dirname $0))
+  GENESIS_CONFIG_FILE=$1
+  show_genesis_version
+  init_genesis 
+  build_genesis
+}
+
+setup_genesis $@
+
