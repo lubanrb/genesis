@@ -24,4 +24,4 @@ You need to save the custom options in your own Genesis configuration file.
 
 ## Genesis Configurations
 
-Please refer to [genesis.conf](Genesis config file) for detail Genesis configurations. Also, if custom options are needed, you can use it as a config file template. Feel free to uncomment and customize the options that you need.
+Please refer to [Genesis config file](genesis.conf) for detail Genesis configurations. Also, if custom options are needed, you can use it as a config file template. Feel free to uncomment and customize the options that you need.
