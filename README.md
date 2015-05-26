@@ -9,7 +9,7 @@ Luban Genesis is a utility to help developer bootstrap the first stand-alone Ube
 To bootstrap Uber environment with Genesis by default options: 
 
 ```
-curl -L https://raw.githubusercontent.com/lubanrb/genesis/master/bootstrap | bash
+curl -sSL https://raw.githubusercontent.com/lubanrb/genesis/master/bootstrap | bash
 ```
 
 ### Customized configurations
@@ -17,7 +17,7 @@ curl -L https://raw.githubusercontent.com/lubanrb/genesis/master/bootstrap | bas
 To bootstrap Uber environment with Genesis by custom options:
 
 ```
-curl -L https://raw.githubusercontent.com/lubanrb/genesis/master/bootstrap | bash -s /path/to/your/genesis.conf
+curl -sSL https://raw.githubusercontent.com/lubanrb/genesis/master/bootstrap | bash -s /path/to/your/genesis.conf
 ```
 
 You need to save the custom options in your own Genesis configuration file.
