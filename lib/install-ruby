@@ -91,7 +91,7 @@ setup_ruby() {
   fi
 
   make_ruby_directories
-  setup_yaml
+  #setup_yaml
   install_ruby
   post_setup_ruby
 }
