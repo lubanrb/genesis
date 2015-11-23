@@ -4,29 +4,16 @@ set -e # exit the script if any statement returns a non-true result
 
 # Luban Genesis is used to bootstrap the Uber application environment
 
-# Color codes
-CGREY=$(tput setaf 0)
-CRED=$(tput setaf 1)
-CGREEN=$(tput setaf 2)
-CYELLOW=$(tput setaf 3)
-CBLUE=$(tput setaf 4)
-CMAGENTA=$(tput setaf 5)
-CCYAN=$(tput setaf 6)
-CWHITE=$(tput setaf 7)
-CBOLD=$(tput bold)
-CUNDERLINE=$(tput sgr 0 1)
-CRESET=$(tput sgr0)
-
 print_task() {
-  echo "[$(date +"%H:%M")]" $CBOLD$CYELLOW$@$CRESET
+  echo "[$(date +"%H:%M")]" $@
 }
 
 print_step() {
-  echo "        "$CCYAN$@$CRESET
+  echo "        "$@
 }
 
 print_line() {
-  echo "        - "$@$CRESET
+  echo "        - "$@
 }
 
 resolve_link() {
@@ -49,7 +36,7 @@ configure_genesis_default_options() {
 
   YAML_VER="0.1.5"
   YAML_SRC_URL="http://pyyaml.org/download/libyaml"
-  RUBY_VER="2.2.2"
+  RUBY_VER="2.2.3"
   OPENSSL_DIR="/usr"
   RUBY_SRC_URL="http://ftp.ruby-lang.org/pub/ruby/${RUBY_VER%.*}"
   RDOC_OPTIONS="--no-document"
@@ -93,7 +80,7 @@ make_genesis_directories() {
 load_genesis_modules() {
   print_step "Load Genesis modules"
 
-  source $GENESIS_ROOT/lib/install-yaml
+  #source $GENESIS_ROOT/lib/install-yaml
   source $GENESIS_ROOT/lib/install-ruby
   source $GENESIS_ROOT/lib/install-gems
 }
