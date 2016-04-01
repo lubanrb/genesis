@@ -1,5 +1,11 @@
 # Change log
 
+## Version 0.2.0 (Apr 01, 2015)
+
+Minor enhancements:
+  * Removed support for YAML installation because Ruby has bundled YAML since version 2.1.2
+  * Bundled OpenSSL when setup Ruby
+
 ## Version 0.1.1 (May 26, 2015)
 
 Minor enhancements:

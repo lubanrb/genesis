@@ -28,24 +28,25 @@ configure_genesis_default_options() {
   print_line "Configure Genesis default options"
 
   DEPLOY_USER="$USER"
-  LUBAN_INSTALL_PATH="/opt/luban"
+  LUBAN_INSTALL_PATH="/opt/luban1"
   SSH_PORT=22
   FORCE_INSTALL=false
   UBER_STAGE="development"
   UBER_ENV="uber"
 
-  YAML_VER="0.1.5"
-  YAML_SRC_URL="http://pyyaml.org/download/libyaml"
-  RUBY_VER="2.2.3"
-  OPENSSL_DIR="/usr"
+  OPENSSL_VER="1.0.2g"
+  OPENSSL_SRC_URL="http://www.openssl.org/source"
+  RUBY_VER="2.3.0"
   RUBY_SRC_URL="http://ftp.ruby-lang.org/pub/ruby/${RUBY_VER%.*}"
   RDOC_OPTIONS="--no-document"
   BUNDLER_VER=""
+  LUBAN_VER=""
 }
 
 configure_genesis_constom_options() {
   # Load Genesis custom options from config file if specified
-  if [[ ! -z "$GENESIS_CONFIG_FILE" ]]; then
+  if [[ ! -z "$GENESIS_CONFIG_FILE" ]]
+  then
     print_line "Configure Genesis custom options from file \"$GENESIS_CONFIG_FILE\""
     source $GENESIS_CONFIG_FILE
   fi
@@ -57,8 +58,17 @@ configure_genesis_system_options() {
   DEPLOY_ROOT=$(dirname $GENESIS_ROOT)
   UBER_ENV_ROOT="$LUBAN_INSTALL_PATH/env/$UBER_STAGE.$UBER_ENV"
   LUBAN_PKG="$UBER_ENV_ROOT/.luban/pkg"
-  LUBAN_BIN="$UBER_ENV_ROOT/.luban/bin"
   LUBAN_TMP="$LUBAN_INSTALL_PATH/tmp"
+  LUBBASE_ROOT="$UBER_ENV_ROOT/lubbase"
+  LUBBASE_BIN="$LUBBASE_ROOT/bin"
+  HARDWARE_NAME=$(uname -m)
+  OS_NAME=$(uname -s)
+  if [ "$OS_NAME" == "Darwin" ]
+  then
+    OSX=true
+  else
+    OSX=false
+  fi
 }
 
 configure_genesis() {
@@ -73,14 +83,15 @@ make_genesis_directories() {
   print_step "Make Genesis directories"
 
   mkdir -p $LUBAN_PKG
-  mkdir -p $LUBAN_BIN
   mkdir -p $LUBAN_TMP
+  mkdir -p $LUBBASE_ROOT
+  mkdir -p $LUBBASE_BIN
 }
 
 load_genesis_modules() {
   print_step "Load Genesis modules"
 
-  #source $GENESIS_ROOT/lib/install-yaml
+  source $GENESIS_ROOT/lib/install-openssl
   source $GENESIS_ROOT/lib/install-ruby
   source $GENESIS_ROOT/lib/install-gems
 }
