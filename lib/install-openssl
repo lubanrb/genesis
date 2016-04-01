@@ -1,0 +1,115 @@
+#!/usr/bin/env bash
+
+# =============
+# OPENSSL Setup
+# =============
+
+setup_openssl_env_variables() {
+  print_line "Setup OpenSSL environment variables"
+
+  OPENSSL_HOME=$LUBAN_PKG/openssl
+  OPENSSL_VER_DIR=$OPENSSL_HOME/versions/$OPENSSL_VER
+  OPENSSL_VER_TMP=$OPENSSL_HOME/tmp
+  OPENSSL_SRC_FILE=$LUBAN_TMP/openssl-$OPENSSL_VER.tar.gz
+  OPENSSL_VER_INST=$OPENSSL_VER_TMP/openssl-$OPENSSL_VER
+  OPENSSL_INST_LOG=$OPENSSL_HOME/log/openssl-$OPENSSL_VER
+  OPENSSL_INST_LOG_FILE=$OPENSSL_INST_LOG/openssl-$OPENSSL_VER-install-$(date +%Y%m%d-%H%M%S).log
+  OPENSSL_BIN=$OPENSSL_VER_DIR/bin
+  if $OSX
+  then
+    OPENSSL_CONFIG_COMMAND="./Configure"
+  else
+    OPENSSL_CONFIG_COMMAND="./config"
+  fi
+  CONFIG_OPTIONS="no-ssl2 zlib-dynamic shared enable-cms"
+}
+
+make_openssl_directories() {
+  print_step "Make OpenSSL directories"
+
+  mkdir -p $OPENSSL_VER_DIR
+  mkdir -p $OPENSSL_VER_TMP
+  mkdir -p $OPENSSL_INST_LOG
+}
+
+create_openssl_symlink() {
+  print_line "Creating OpenSSL symlinks"
+
+  ln -nfs $OPENSSL_VER_DIR $LUBBASE_ROOT/openssl >> $OPENSSL_INST_LOG_FILE 2>&1
+}
+
+create_openssl_binstubs() {
+  print_line "Create OpenSSL binstubs"
+
+  for f in $OPENSSL_BIN/*
+  do
+    ln -nfs $f $LUBBASE_BIN/ >> $OPENSSL_INST_LOG_FILE 2>&1
+  done
+}
+
+install_openssl() {
+  print_line "Installing OpenSSL $OPENSSL_VER"
+
+  if [ ! -f "$OPENSSL_SRC_FILE" ]
+  then
+    print_line "Downloading OPENSSL source"
+    curl -L -o $LUBAN_TMP/openssl-$OPENSSL_VER.tar.gz $OPENSSL_SRC_URL/openssl-$OPENSSL_VER.tar.gz >> $OPENSSL_INST_LOG_FILE 2>&1
+  fi
+
+  print_line  "Untar'ing OpenSSL source"
+  tar -xzf $OPENSSL_SRC_FILE -C $OPENSSL_VER_TMP >> $OPENSSL_INST_LOG_FILE 2>&1
+  cd $OPENSSL_VER_INST
+
+  print_line "Configuring OpenSSL"
+  if $OSX
+  then
+    if [ "$HARDWARE_NAME" == "x86_64" ]
+    then
+      CONFIG_OPTIONS="darwin64-x86_64-cc enable-ec_nistp_64_gcc_128 $CONFIG_OPTIONS"
+    else
+      CONFIG_OPTIONS="darwin-i386-cc $CONFIG_OPTIONS"
+    fi
+  fi
+  $OPENSSL_CONFIG_COMMAND $CONFIG_OPTIONS --prefix=$OPENSSL_VER_DIR >> $OPENSSL_INST_LOG_FILE 2>&1
+
+  print_line "Building OpenSSL"
+  make >> $OPENSSL_INST_LOG_FILE 2>&1
+  make depend >> $OPENSSL_INST_LOG_FILE 2>&1
+
+  print_line "Installing OpenSSL"
+  make install >> $OPENSSL_INST_LOG_FILE 2>&1
+
+  cd $DEPLOY_ROOT
+}
+
+cleanup_openssl_setup() {
+  print_line "Clean up OpenSSL setup"
+  
+  rm -fr $OPENSSL_VER_INST
+  rm -fr $OPENSSL_VER_DIR/ssl/man # Clean up man pages
+}
+
+post_setup_openssl() {
+  cleanup_openssl_setup
+  create_openssl_symlink
+  create_openssl_binstubs
+}
+
+setup_openssl() {
+  print_step "Setup OpenSSL $OPENSSL_VER"
+
+  setup_openssl_env_variables
+
+  if [ -e "$OPENSSL_BIN/openssl" ]
+  then
+    if ! $FORCE_INSTALL
+    then
+      print_line "OpenSSL $OPENSSL_VER setup is skipped: installed ALREADY"
+      return
+    fi
+  fi
+
+  make_openssl_directories
+  install_openssl
+  post_setup_openssl
+}

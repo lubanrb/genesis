@@ -9,11 +9,12 @@ setup_ruby_env_variables() {
 
   RUBY_HOME=$LUBAN_PKG/ruby
   RUBY_VER_DIR=$RUBY_HOME/versions/$RUBY_VER
-  RUBY_VER_TMP=$LUBAN_TMP
-  RUBY_SRC_FILE=$RUBY_VER_TMP/ruby-$RUBY_VER.tar.gz
+  RUBY_VER_TMP=$RUBY_HOME/tmp
+  RUBY_SRC_FILE=$LUBAN_TMP/ruby-$RUBY_VER.tar.gz
   RUBY_VER_INST=$RUBY_VER_TMP/ruby-$RUBY_VER
-  RUBY_INST_LOG=$RUBY_HOME/log
-  RUBY_INST_LOG_FILE=$RUBY_INST_LOG/ruby-$RUBY_VER-install-$(date +%Y%m%d-%H%M).log
+  RUBY_INST_LOG=$RUBY_HOME/log/ruby-$RUBY_VER
+  RUBY_INST_LOG_FILE=$RUBY_INST_LOG/ruby-$RUBY_VER-install-$(date +%Y%m%d-%H%M%S).log
+  RUBY_BIN=$RUBY_VER_DIR/bin/
 }
 
 make_ruby_directories() {
@@ -27,15 +28,15 @@ make_ruby_directories() {
 create_ruby_symlink() {
   print_line "Creating Ruby symlinks"
 
-  ln -nfs $RUBY_VER_DIR $RUBY_HOME/current
+  ln -nfs $RUBY_VER_DIR $LUBBASE_ROOT/ruby >> $RUBY_INST_LOG_FILE 2>&1
 }
 
 create_ruby_binstubs() {
   print_line "Create Ruby binstubs"
 
-  for f in $RUBY_VER_DIR/bin/*
+  for f in $RUBY_BIN/*
   do
-    ln -fs $f $LUBAN_BIN/
+    ln -nfs $f $LUBBASE_BIN/ >> $RUBY_INST_LOG_FILE 2>&1
   done
 }
 
@@ -45,7 +46,7 @@ install_ruby() {
   if [ ! -f "$RUBY_SRC_FILE" ];
   then
     print_line "Downloading Ruby source"
-    curl -o $RUBY_VER_TMP/ruby-$RUBY_VER.tar.gz -L $RUBY_SRC_URL/ruby-$RUBY_VER.tar.gz >> $RUBY_INST_LOG_FILE 2>&1
+    curl -L -o $LUBAN_TMP/ruby-$RUBY_VER.tar.gz $RUBY_SRC_URL/ruby-$RUBY_VER.tar.gz >> $RUBY_INST_LOG_FILE 2>&1
   fi
 
   print_line  "Untar'ing Ruby source"
@@ -53,7 +54,7 @@ install_ruby() {
   cd $RUBY_VER_INST
 
   print_line "Configuring Ruby"
-  ./configure --prefix=$RUBY_VER_DIR --disable-install-doc --with-opt-dir=$RUBY_VER_DIR:$OPENSSL_DIR >> $RUBY_INST_LOG_FILE 2>&1
+  ./configure --prefix=$RUBY_VER_DIR --disable-install-doc --with-opt-dir=$OPENSSL_VER_DIR >> $RUBY_INST_LOG_FILE 2>&1
 
   print_line "Building Ruby"
   make >> $RUBY_INST_LOG_FILE 2>&1
@@ -81,17 +82,18 @@ setup_ruby() {
 
   setup_ruby_env_variables
 
-  if [ -e "$RUBY_VER_DIR/bin/ruby" ];
+  if [ -e "$RUBY_BIN/ruby" ]
   then
-    if ! $FORCE_INSTALL;
+    if ! $FORCE_INSTALL
     then
       print_line "Ruby $RUBY_VER setup is skipped: installed ALREADY"
       return
     fi
   fi
 
+  setup_openssl
+  
   make_ruby_directories
-  #setup_yaml
   install_ruby
   post_setup_ruby
 }
