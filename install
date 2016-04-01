@@ -28,7 +28,7 @@ configure_genesis_default_options() {
   print_line "Configure Genesis default options"
 
   DEPLOY_USER="$USER"
-  LUBAN_INSTALL_PATH="/opt/luban1"
+  LUBAN_INSTALL_PATH="/opt/luban"
   SSH_PORT=22
   FORCE_INSTALL=false
   UBER_STAGE="development"
