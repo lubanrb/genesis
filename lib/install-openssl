@@ -5,12 +5,10 @@
 # =============
 
 setup_openssl_env_variables() {
-  print_line "Setup OpenSSL environment variables"
-
   OPENSSL_HOME=$LUBAN_PKG/openssl
   OPENSSL_VER_DIR=$OPENSSL_HOME/versions/$OPENSSL_VER
   OPENSSL_VER_TMP=$OPENSSL_HOME/tmp
-  OPENSSL_SRC_FILE=$LUBAN_TMP/openssl-$OPENSSL_VER.tar.gz
+  OPENSSL_SRC_FILE=$LUBAN_DOWNLOADS/openssl-$OPENSSL_VER.tar.gz
   OPENSSL_VER_INST=$OPENSSL_VER_TMP/openssl-$OPENSSL_VER
   OPENSSL_INST_LOG=$OPENSSL_HOME/log/openssl-$OPENSSL_VER
   OPENSSL_INST_LOG_FILE=$OPENSSL_INST_LOG/openssl-$OPENSSL_VER-install-$(date +%Y%m%d-%H%M%S).log
@@ -53,7 +51,7 @@ install_openssl() {
   if [ ! -f "$OPENSSL_SRC_FILE" ]
   then
     print_line "Downloading OPENSSL source"
-    curl -L -o $LUBAN_TMP/openssl-$OPENSSL_VER.tar.gz $OPENSSL_SRC_URL/openssl-$OPENSSL_VER.tar.gz >> $OPENSSL_INST_LOG_FILE 2>&1
+    curl -L -o $OPENSSL_SRC_FILE $OPENSSL_SRC_URL/openssl-$OPENSSL_VER.tar.gz >> $OPENSSL_INST_LOG_FILE 2>&1
   fi
 
   print_line  "Untar'ing OpenSSL source"
@@ -96,7 +94,7 @@ post_setup_openssl() {
 }
 
 setup_openssl() {
-  print_step "Setup OpenSSL $OPENSSL_VER"
+  print_task "Setup OpenSSL $OPENSSL_VER"
 
   setup_openssl_env_variables
 
