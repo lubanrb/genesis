@@ -1,6 +1,13 @@
 # Change log
 
-## Version 0.2.0 (Apr 01, 2015)
+## Version 0.2.1 (Apr 11, 2016)
+
+Minor enhancements:
+  * Added Luban downloads path to store downloaded third-party source packages if any
+  * Install OpenSSL before instead of inside Ruby installation
+  * Fixed a few minor typos
+
+## Version 0.2.0 (Apr 01, 2016)
 
 Minor enhancements:
   * Removed support for YAML installation because Ruby has bundled YAML since version 2.1.2
