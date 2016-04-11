@@ -59,6 +59,7 @@ configure_genesis_system_options() {
   UBER_ENV_ROOT="$LUBAN_INSTALL_PATH/env/$UBER_STAGE.$UBER_ENV"
   LUBAN_PKG="$UBER_ENV_ROOT/.luban/pkg"
   LUBAN_TMP="$LUBAN_INSTALL_PATH/tmp"
+  LUBAN_DOWNLOADS="$LUBAN_INSTALL_PATH/downloads"
   LUBBASE_ROOT="$UBER_ENV_ROOT/lubbase"
   LUBBASE_BIN="$LUBBASE_ROOT/bin"
   HARDWARE_NAME=$(uname -m)
@@ -84,6 +85,7 @@ make_genesis_directories() {
 
   mkdir -p $LUBAN_PKG
   mkdir -p $LUBAN_TMP
+  mkdir -p $LUBAN_DOWNLOADS
   mkdir -p $LUBBASE_ROOT
   mkdir -p $LUBBASE_BIN
 }
@@ -105,6 +107,7 @@ init_genesis() {
 }
 
 build_genesis() {
+  setup_openssl
   setup_ruby
   setup_default_gems
 }
