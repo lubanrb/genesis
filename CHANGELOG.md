@@ -1,5 +1,19 @@
 # Change log
 
+## Version 0.2.5 (Apr 12, 2016)
+
+New features:
+  * Integrated with Uber deployment project to manage Uber environment in a long run
+
+Bug fixes:
+  * Setup the correct download path for Ruby and OpenSSL
+
+Minor enhancements:
+  * Changed DEPLOY_USER, UBER_ENV and UBER_STAGE to become system options instead of custom options
+  * Renamed LUBAN_INSTALL_PATH to LUBAN_ROOT_PATH to be consistent with naming in Ruby gem Luban
+  * Updated simple and complete Genesis config files
+
+
 ## Version 0.2.1 (Apr 11, 2016)
 
 Minor enhancements:
