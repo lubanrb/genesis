@@ -9,17 +9,38 @@ retrieve_genesis() {
   tar -xzf /tmp/genesis-master.tar.gz -C /tmp/
 }
 
+retrieve_uber() {
+  # Download Uber master branch from Github
+  curl -s -o /tmp/uber-master.tar.gz -L https://github.com/lubanrb/uber/archive/master.tar.gz
+  # Untar Uber to /tmp
+  tar -xzf /tmp/uber-master.tar.gz -C /tmp/
+}
+
 cleanup() {
+  cleanup_genesis
+  cleanup_uber
+}
+
+cleanup_genesis() {
   # Clean up Genesis
   rm -fr /tmp/genesis-master
-  rm -fr /tmp/genesis-master.zip  
+  rm -f /tmp/genesis-master.tar.gz
+}
+
+cleanup_uber() {
+  # Clean up Uber
+  rm -fr /tmp/uber-master
+  rm -f /tmp/uber-master.tar.gz
 }
 
 # Upon exit, remove tmp files
 trap "cleanup" INT TERM EXIT
 
-# Retrieve Genesis
+# Setup Genesis
 retrieve_genesis
-# Install Genesis
 /tmp/genesis-master/install $@
+
+# Setup Uber
+retrieve_uber
+mv /tmp/uber-master ./uber
 
