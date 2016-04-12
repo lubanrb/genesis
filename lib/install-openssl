@@ -8,7 +8,8 @@ setup_openssl_env_variables() {
   OPENSSL_HOME=$LUBAN_PKG/openssl
   OPENSSL_VER_DIR=$OPENSSL_HOME/versions/$OPENSSL_VER
   OPENSSL_VER_TMP=$OPENSSL_HOME/tmp
-  OPENSSL_SRC_FILE=$LUBAN_DOWNLOADS/openssl-$OPENSSL_VER.tar.gz
+  OPENSSL_DOWNLOADS=$LUBAN_DOWNLOADS/openssl
+  OPENSSL_SRC_FILE=$OPENSSL_DOWNLOADS/openssl-$OPENSSL_VER.tar.gz
   OPENSSL_VER_INST=$OPENSSL_VER_TMP/openssl-$OPENSSL_VER
   OPENSSL_INST_LOG=$OPENSSL_HOME/log/openssl-$OPENSSL_VER
   OPENSSL_INST_LOG_FILE=$OPENSSL_INST_LOG/openssl-$OPENSSL_VER-install-$(date +%Y%m%d-%H%M%S).log
@@ -28,6 +29,7 @@ make_openssl_directories() {
   mkdir -p $OPENSSL_VER_DIR
   mkdir -p $OPENSSL_VER_TMP
   mkdir -p $OPENSSL_INST_LOG
+  mkdir -p $OPENSSL_DOWNLOADS
 }
 
 create_openssl_symlink() {

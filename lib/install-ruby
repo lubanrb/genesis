@@ -8,7 +8,8 @@ setup_ruby_env_variables() {
   RUBY_HOME=$LUBAN_PKG/ruby
   RUBY_VER_DIR=$RUBY_HOME/versions/$RUBY_VER
   RUBY_VER_TMP=$RUBY_HOME/tmp
-  RUBY_SRC_FILE=$LUBAN_DOWNLOADS/ruby-$RUBY_VER.tar.gz
+  RUBY_DOWNLOADS=$LUBAN_DOWNLOADS/ruby
+  RUBY_SRC_FILE=$RUBY_DOWNLOADS/ruby-$RUBY_VER.tar.gz
   RUBY_VER_INST=$RUBY_VER_TMP/ruby-$RUBY_VER
   RUBY_INST_LOG=$RUBY_HOME/log/ruby-$RUBY_VER
   RUBY_INST_LOG_FILE=$RUBY_INST_LOG/ruby-$RUBY_VER-install-$(date +%Y%m%d-%H%M%S).log
@@ -21,6 +22,7 @@ make_ruby_directories() {
   mkdir -p $RUBY_VER_DIR
   mkdir -p $RUBY_VER_TMP
   mkdir -p $RUBY_INST_LOG
+  mkdir -p $RUBY_DOWNLOADS
 }
 
 create_ruby_symlink() {
