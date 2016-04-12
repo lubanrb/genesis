@@ -29,7 +29,6 @@ configure_genesis_default_options() {
 
   DEPLOY_USER="$USER"
   LUBAN_INSTALL_PATH="/opt/luban"
-  SSH_PORT=22
   FORCE_INSTALL=false
   UBER_STAGE="development"
   UBER_ENV="uber"
