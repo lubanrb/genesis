@@ -27,15 +27,12 @@ expand_path() {
 configure_genesis_default_options() {
   print_line "Configure Genesis default options"
 
-  DEPLOY_USER="$USER"
-  LUBAN_INSTALL_PATH="/opt/luban"
-  SSH_PORT=22
+  LUBAN_ROOT_PATH="/opt/luban"
   FORCE_INSTALL=false
-  UBER_STAGE="development"
-  UBER_ENV="uber"
 
   OPENSSL_VER="1.0.2g"
   OPENSSL_SRC_URL="http://www.openssl.org/source"
+
   RUBY_VER="2.3.0"
   RUBY_SRC_URL="http://ftp.ruby-lang.org/pub/ruby/${RUBY_VER%.*}"
   RDOC_OPTIONS="--no-document"
@@ -55,11 +52,14 @@ configure_genesis_constom_options() {
 configure_genesis_system_options() {
   print_line "Configure Genesis system options"
 
+  DEPLOY_USER="$USER"
+  UBER_ENV="uber"
+  UBER_STAGE="development"
   DEPLOY_ROOT=$(dirname $GENESIS_ROOT)
-  UBER_ENV_ROOT="$LUBAN_INSTALL_PATH/env/$UBER_STAGE.$UBER_ENV"
+  UBER_ENV_ROOT="$LUBAN_ROOT_PATH/env/$UBER_STAGE.$UBER_ENV"
   LUBAN_PKG="$UBER_ENV_ROOT/.luban/pkg"
-  LUBAN_TMP="$LUBAN_INSTALL_PATH/tmp"
-  LUBAN_DOWNLOADS="$LUBAN_INSTALL_PATH/downloads"
+  LUBAN_TMP="$LUBAN_ROOT_PATH/tmp"
+  LUBAN_DOWNLOADS="$LUBAN_ROOT_PATH/downloads"
   LUBBASE_ROOT="$UBER_ENV_ROOT/lubbase"
   LUBBASE_BIN="$LUBBASE_ROOT/bin"
   HARDWARE_NAME=$(uname -m)
