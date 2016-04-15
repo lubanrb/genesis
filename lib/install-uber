@@ -5,9 +5,16 @@
 # ==========
 
 setup_uber() {
+  print_task "Setup Uber"
   mv /tmp/uber-master ./uber
-  cd uber
-  $LUBBASE_BIN/luban $UBER_STAGE lubbase setup
-  source $LUBBASE_ROOT/.luban_profile
-  cd ..
+  
+  print_step
+  print_step "Run the following commands to complete the Uber setup:"
+  print_line "cd uber && $LUBBASE_BIN/luban $UBER_STAGE lubbase setup && cd .."
+  print_step
+  print_step "To activate Uber in the current shell session:"
+  print_line "source $LUBBASE_ROOT/.luban_profile"
+  print_step
+  print_step "Uber will be activated for new shell sessions."
+  print_step "If this is not desired, remove the activation code in ~/.bashrc"
 }
