@@ -9,12 +9,15 @@ setup_uber() {
   mv /tmp/uber-master ./uber
   
   print_step
-  print_step "Run the following commands to complete the Uber setup:"
-  print_line "cd uber && $LUBBASE_BIN/luban $UBER_STAGE lubbase setup && cd .."
+  print_step "** ATTENTION **"
+  print_step "Run commands below to COMPLETE the Uber setup:"
+  print_line "cd uber"
+  print_line "$LUBBASE_BIN/luban $UBER_STAGE lubbase setup"
   print_step
+  print_step "** NOTE **"
   print_step "To activate Uber in the current shell session:"
   print_line "source $LUBBASE_ROOT/.luban_profile"
   print_step
-  print_step "Uber will be activated for new shell sessions."
+  print_step "Also, Uber will be activated for new shell sessions by default."
   print_step "If this is not desired, remove the activation code in ~/.bashrc"
 }
