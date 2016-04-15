@@ -36,11 +36,18 @@ cleanup_uber() {
 # Upon exit, remove tmp files
 trap "cleanup" INT TERM EXIT
 
-# Setup Genesis
-retrieve_genesis
-/tmp/genesis-master/install $@
+setup_genesis() {
+  retrieve_genesis
+  /tmp/genesis-master/install $@
+}
 
-# Setup Uber
-retrieve_uber
-mv /tmp/uber-master ./uber
+setup_uber() {
+  retrieve_uber
+  mv /tmp/uber-master ./uber
+  cd uber
+  $LUBBASE_BIN/luban $UBER_STAGE lubbase setup
+  cd ..
+}
 
+setup_genesis $@
+setup_uber
