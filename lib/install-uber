@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# ==========
+# Uber Setup
+# ==========
+
+setup_uber() {
+  mv /tmp/uber-master ./uber
+  cd uber
+  $LUBBASE_BIN/luban $UBER_STAGE lubbase setup
+  source $LUBBASE_ROOT/.luban_profile
+  cd ..
+}

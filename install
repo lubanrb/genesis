@@ -96,6 +96,7 @@ load_genesis_modules() {
   source $GENESIS_ROOT/lib/install-openssl
   source $GENESIS_ROOT/lib/install-ruby
   source $GENESIS_ROOT/lib/install-gems
+  source $GENESIS_ROOT/lib/install-uber
 }
 
 init_genesis() {
@@ -110,6 +111,7 @@ build_genesis() {
   setup_openssl
   setup_ruby
   setup_default_gems
+  setup_uber
 }
 
 show_genesis_version() {
