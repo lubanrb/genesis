@@ -5,15 +5,15 @@ set -e # exit the script if any statement returns a non-true result
 # Luban Genesis is used to bootstrap the Uber application environment
 
 print_task() {
-  echo "[$(date +"%H:%M")]" $@
+  echo "[$(date +"%H:%M")] $@"
 }
 
 print_step() {
-  echo "        "$@
+  echo "        $@"
 }
 
 print_line() {
-  echo "        - "$@
+  echo "        - $@"
 }
 
 resolve_link() {
