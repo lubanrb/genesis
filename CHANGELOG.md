@@ -1,9 +1,10 @@
 # Change log
 
-## Version 0.2.5 (Apr 12, 2016)
+## Version 0.2.5 (Apr 15, 2016)
 
 New features:
   * Integrated with Uber deployment project to manage Uber environment in a long run
+  * Added instructions to complete Uber setup
 
 Bug fixes:
   * Setup the correct download path for Ruby and OpenSSL
