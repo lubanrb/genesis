@@ -36,6 +36,8 @@ cleanup_uber() {
 # Upon exit, remove tmp files
 trap "cleanup" INT TERM EXIT
 
+WORK_DIR=$(pwd)
+export WORK_DIR
 retrieve_genesis
 retrieve_uber
 /tmp/genesis-master/install $@

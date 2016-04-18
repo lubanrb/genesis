@@ -6,7 +6,9 @@
 
 setup_uber() {
   print_task "Setup Uber"
-  mv /tmp/uber-master ./uber
+  if [ ! -d "$WORK_DIR/uber" ]; then
+    mv /tmp/uber-master $WORK_DIR/uber
+  fi
   
   print_step
   print_step "** ATTENTION **"
