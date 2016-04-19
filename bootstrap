@@ -19,6 +19,7 @@ retrieve_uber() {
 cleanup() {
   cleanup_genesis
   cleanup_uber
+  unset WORK_DIR
 }
 
 cleanup_genesis() {
