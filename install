@@ -31,7 +31,7 @@ configure_genesis_default_options() {
   FORCE_INSTALL=false
 
   OPENSSL_VER="1.0.2h"
-  OPENSSL_SRC_URL="http://www.openssl.org/source"
+  OPENSSL_SRC_URL="ftp://ftp.openssl.org/source"
 
   RUBY_VER="2.3.0"
   RUBY_SRC_URL="http://ftp.ruby-lang.org/pub/ruby/${RUBY_VER%.*}"
