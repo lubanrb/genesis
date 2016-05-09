@@ -1,5 +1,11 @@
 # Change log
 
+## Version 0.2.7 (WIP)
+
+Minor enhancements: 
+  * Changed openssl source download url to ftp site
+  * Upgraded Ruby to 2.3.1
+
 ## Version 0.2.6 (May 09, 2016)
 
 Minor enhancements:
