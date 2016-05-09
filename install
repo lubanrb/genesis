@@ -30,7 +30,7 @@ configure_genesis_default_options() {
   LUBAN_ROOT_PATH="/opt/luban"
   FORCE_INSTALL=false
 
-  OPENSSL_VER="1.0.2g"
+  OPENSSL_VER="1.0.2h"
   OPENSSL_SRC_URL="http://www.openssl.org/source"
 
   RUBY_VER="2.3.0"

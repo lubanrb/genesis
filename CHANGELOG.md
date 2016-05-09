@@ -1,5 +1,10 @@
 # Change log
 
+## Version 0.2.6 (May 09, 2016)
+
+Minor enhancements:
+  * Upgraded OpenSSL to 1.0.2h for Ruby installation
+
 ## Version 0.2.5 (Apr 15, 2016)
 
 New features:
