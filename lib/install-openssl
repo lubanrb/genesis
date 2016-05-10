@@ -43,7 +43,7 @@ create_openssl_binstubs() {
 
   for f in $OPENSSL_BIN/*
   do
-    ln -nfs $f $LUBBASE_BIN/ >> $OPENSSL_INST_LOG_FILE 2>&1
+    ln -nfs $f $LUBBASE_BIN >> $OPENSSL_INST_LOG_FILE 2>&1
   done
 }
 

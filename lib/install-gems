@@ -8,7 +8,7 @@ create_gems_binstubs() {
   print_line "Creating gems binstubs ..."
   for f in $RUBY_BIN/*
   do
-    ln -nfs $f $LUBBASE_BIN/ >> $RUBY_INST_LOG_FILE 2>&1
+    ln -nfs $f $LUBBASE_BIN >> $RUBY_INST_LOG_FILE 2>&1
   done
 }
 
@@ -30,7 +30,7 @@ setup_gem_bundler() {
   then
     if ! $FORCE_INSTALL
     then
-      print_line "Bundler $BUNDLER_VER setup is skipped: installed ALREADY"
+      print_line "Bundler setup is skipped: installed ALREADY"
       return
     fi
   fi
@@ -38,8 +38,35 @@ setup_gem_bundler() {
   install_gem_bundler
 }
 
+install_gem_luban() {
+  print_line "Install gem Luban"
+
+  if [[ -z "$LUBAN_VER" ]]
+  then
+    $LUBBASE_BIN/gem install luban $RDOC_OPTIONS >> $RUBY_INST_LOG_FILE 2>&1
+  else
+    $LUBBASE_BIN/gem install luban --version $LUBAN_VER $RDOC_OPTIONS >> $RUBY_INST_LOG_FILE 2>&1
+  fi
+}
+
+setup_gem_luban() {
+  print_step "Setup gem Luban $LUBAN_VER"
+
+  if [ -e "$RUBY_BIN/luban" ]
+  then
+    if ! $FORCE_INSTALL
+    then
+      print_line "Luban $LUBAN_VER setup is skipped: installed ALREADY"
+      return
+    fi
+  fi
+
+  install_gem_luban
+}
+
 install_default_gems() {
   setup_gem_bundler
+  setup_gem_luban
   create_gems_binstubs
 }
 
