@@ -4,12 +4,22 @@
 # Uber Setup
 # ==========
 
-setup_uber() {
-  print_task "Setup Uber"
-  if [ ! -d "$WORK_DIR/uber" ]; then
-    mv /tmp/uber-master $WORK_DIR/uber
+bundle_gems() {
+  print_step "Bundle required gems"
+
+  cd $WORK_DIR/uber
+  $LUBBASE_BIN/bundle check > /dev/null
+  if [ "$?" == "0" ]
+  then
+    print_line "Bundle gems setup is skipped: bundled ALREADY"
+  else
+    $LUBBASE_BIN/bundle install >> $RUBY_INST_LOG_FILE 2>&1
+    create_gems_binstubs
   fi
-  
+  cd -
+}
+
+print_summary() {  
   print_step
   print_step "** ATTENTION **"
   print_step "Run commands below to COMPLETE the Uber setup:"
@@ -22,4 +32,14 @@ setup_uber() {
   print_step
   print_step "Also, Uber will be activated for new shell sessions by default."
   print_step "If this is not desired, remove the activation code in ~/.bashrc"
+}
+
+setup_uber() {
+  print_task "Setup Uber"
+  if [ ! -d "$WORK_DIR/uber" ]; then
+    mv /tmp/uber-master $WORK_DIR/uber
+  fi
+
+  bundle_gems
+  print_summary
 }
