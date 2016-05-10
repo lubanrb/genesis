@@ -1,8 +1,9 @@
 # Change log
 
-## Version 0.2.7 (WIP)
+## Version 0.3.0 (May 10, 2016)
 
 Minor enhancements: 
+  * Supported gems installation via Gemfile in Uber
   * Changed openssl source download url to ftp site
   * Upgraded Ruby to 2.3.1
 
