@@ -8,15 +8,16 @@ bundle_gems() {
   print_step "Bundle required gems"
 
   cd $WORK_DIR/uber
-  $LUBBASE_BIN/bundle check > /dev/null
-  if [ "$?" == "0" ]
+  
+  if $LUBBASE_BIN/bundle check > /dev/null
   then
     print_line "Bundle gems setup is skipped: bundled ALREADY"
   else
+    print_line "Bundle installing gems"
     $LUBBASE_BIN/bundle install >> $RUBY_INST_LOG_FILE 2>&1
     create_gems_binstubs
   fi
-  cd -
+  cd $WORK_DIR
 }
 
 print_summary() {  
