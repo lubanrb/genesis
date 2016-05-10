@@ -40,7 +40,6 @@ setup_gem_bundler() {
 
 install_default_gems() {
   setup_gem_bundler
-  setup_gem_luban
   create_gems_binstubs
 }
 
