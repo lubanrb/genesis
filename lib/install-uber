@@ -15,7 +15,7 @@ bundle_gems() {
   else
     print_line "Bundle installing gems"
     $LUBBASE_BIN/bundle package >> $RUBY_INST_LOG_FILE 2>&1
-    $LUBBASE_BIN/gem install --force --no-rdoc --no-ri --local vendor/cache/*.gem >> $RUBY_INST_LOG_FILE 2>&1
+    $LUBBASE_BIN/gem install --force --no-document --local vendor/cache/*.gem >> $RUBY_INST_LOG_FILE 2>&1
     create_gems_binstubs
   fi
   cd $WORK_DIR
