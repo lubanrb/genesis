@@ -17,8 +17,9 @@ curl -sSL https://raw.githubusercontent.com/lubanrb/genesis/master/bootstrap | b
 To bootstrap Uber environment thru Genesis with custom options:
 
 ```
-curl -sSL https://raw.githubusercontent.com/lubanrb/genesis/master/bootstrap | bash -s /path/to/your/genesis.conf
+curl -sSL https://raw.githubusercontent.com/lubanrb/genesis/master/bootstrap | bash -s stage /path/to/your/genesis.conf
 ```
+The first argument is the stage of Uber environment, for example, development, staging, production, etc. The second argument is the path to the Genesis configuration file with custom options.
 
 You need to save the custom options in your own Genesis configuration file.
 
