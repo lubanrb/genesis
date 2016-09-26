@@ -1,5 +1,10 @@
 # Change log
 
+## Version 0.3.1 (Sept 26, 2016)
+
+Minor enhancements:
+  * Added command line argument to specify the uber stage with default value of "development"
+
 ## Version 0.3.0 (May 10, 2016)
 
 Minor enhancements: 
