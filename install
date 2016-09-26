@@ -54,7 +54,6 @@ configure_genesis_system_options() {
 
   DEPLOY_USER="$USER"
   UBER_ENV="uber"
-  UBER_STAGE="development"
   DEPLOY_ROOT=$(dirname $GENESIS_ROOT)
   UBER_ENV_ROOT="$LUBAN_ROOT_PATH/env/$UBER_STAGE.$UBER_ENV"
   LUBAN_PKG="$UBER_ENV_ROOT/.luban/pkg"
@@ -122,7 +121,8 @@ show_genesis_version() {
 
 setup_genesis() {
   GENESIS_ROOT=$(expand_path $(dirname $0))
-  GENESIS_CONFIG_FILE=$1
+  UBER_STAGE=${1:-development}
+  GENESIS_CONFIG_FILE=$2
   show_genesis_version
   init_genesis 
   build_genesis
