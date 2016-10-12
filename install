@@ -32,6 +32,7 @@ configure_genesis_default_options() {
 
   OPENSSL_VER="1.0.2h"
   OPENSSL_SRC_URL="ftp://ftp.openssl.org/source"
+  OPENSSL_OLD_SRC_URL="ftp://ftp.openssl.org/source/old/${OPENSSL_VER%%[a-z]*}"
 
   RUBY_VER="2.3.1"
   RUBY_SRC_URL="http://ftp.ruby-lang.org/pub/ruby/${RUBY_VER%.*}"

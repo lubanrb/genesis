@@ -53,7 +53,8 @@ install_openssl() {
   if [ ! -f "$OPENSSL_SRC_FILE" ]
   then
     print_line "Downloading OpenSSL source"
-    curl -L -o $OPENSSL_SRC_FILE $OPENSSL_SRC_URL/openssl-$OPENSSL_VER.tar.gz >> $OPENSSL_INST_LOG_FILE 2>&1
+    (curl -L -o $OPENSSL_SRC_FILE $OPENSSL_SRC_URL/openssl-$OPENSSL_VER.tar.gz ||
+     curl -L -o $OPENSSL_SRC_FILE $OPENSSL_OLD_SRC_URL/openssl-$OPENSSL_VER.tar.gz) >> $OPENSSL_INST_LOG_FILE 2>&1
   fi
 
   print_line  "Untar'ing OpenSSL source"
