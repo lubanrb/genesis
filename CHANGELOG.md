@@ -1,5 +1,11 @@
 # Change log
 
+## Version 0.3.2 (Oct 13, 2016)
+
+Minor enhancements:
+  * Upgraded OpenSSL to version 1.0.2j
+  * Handled download current and old OpenSSL versions properly
+
 ## Version 0.3.1 (Sept 26, 2016)
 
 Minor enhancements:
