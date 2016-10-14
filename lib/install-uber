@@ -26,7 +26,7 @@ print_summary() {
   print_step "** ATTENTION **"
   print_step "Run commands below to COMPLETE the Uber setup:"
   print_line "cd uber"
-  print_line "$LUBBASE_BIN/luban $UBER_STAGE lubbase setup"
+  print_line "$LUBBASE_BIN/luban $UBER_STAGE lubbase provision setup"
   print_step
   print_step "** NOTE **"
   print_step "To activate Uber in the current shell session:"
