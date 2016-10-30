@@ -48,7 +48,7 @@ setup_promptless_authen() {
 
   PUBLIC_KEY=$(cat $PUBLIC_KEY_FILE_PATH 2>&1)
 
-  if [ -f AUTHORIZED_KEYS_FILE_PATH ];
+  if [ -f $AUTHORIZED_KEYS_FILE_PATH ];
   then
     if grep -v "^#" $AUTHORIZED_KEYS_FILE_PATH | grep -Fxq "$PUBLIC_KEY";
     then
