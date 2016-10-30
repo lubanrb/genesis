@@ -1,5 +1,10 @@
 # Change log
 
+## Version 0.3.4 (Oct 31, 2016)
+
+Bug fixes:
+  * Corrected AUTHORIZED_KEYS_FILE_PATH checking for its existence
+
 ## Version 0.3.3 (Oct 27, 2016)
 
 New features:
