@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+
+# ==========
+# Ruby Setup
+# ==========
+
+setup_rubygems_update_env_variables() {
+  RUBYGEMS_UPDATE_DOWNLOADS=$LUBAN_DOWNLOADS/rubygems-update
+  RUBYGEMS_UPDATE_SRC_FILE=$RUBYGEMS_UPDATE_DOWNLOADS/rubygems-update-$RUBYGEMS_UPDATE_VER.gem
+  RUBYGEMS_UPDATE_INST_LOG=$RUBY_HOME/log/rubygems-update-$RUBYGEMS_UPDATE_VER
+  RUBYGEMS_UPDATE_INST_LOG_FILE=$RUBYGEMS_UPDATE_INST_LOG/rubygems-update-$RUBYGEMS_UPDATE_VER-install-$(date +%Y%m%d-%H%M%S).log
+}
+
+make_rubygems_update_directories() {
+  print_step "Make Rubygems-update directories"
+
+  mkdir -p $RUBYGEMS_UPDATE_INST_LOG
+  mkdir -p $RUBYGEMS_UPDATE_DOWNLOADS
+}
+
+install_rubygems_update() {
+  print_step "Install Rubygems-update $RUBYGMES_UPDATE_VER"
+
+  if [ ! -f "$RUBYGEMS_UPDATE_SRC_FILE" ];
+  then
+    print_line "Downloading Rubygems-update source"
+    curl -L -o $RUBYGEMS_UPDATE_SRC_FILE $RUBYGEMS_UPDATE_SRC_URL/rubygems-update-$RUBYGEMS_UPDATE_VER.gem >> $RUBYGEMS_UPDATE_INST_LOG_FILE 2>&1
+  fi
+
+  print_line "Installing Rubygems-update"
+  $RUBY_BIN/gem install $RDOC_OPTIONS --local $RUBYGEMS_UPDATE_SRC_FILE >> $RUBYGEMS_UPDATE_INST_LOG_FILE 2>&1
+  $RUBY_BIN/update_rubygems $RDOC_OPTIONS >> $RUBYGEMS_UPDATE_INST_LOG_FILE 2>&1
+}
+
+cleanup_rubygems_update_setup() {
+  print_line "Clean up Rubygems-update setup"
+
+  $RUBY_BIN/gem uninstall rubygems-update -a -x -I >> $RUBYGEMS_UPDATE_INST_LOG_FILE 2>&1
+
+  rm -fr $RUBYGEMS_UPDATE_VER_INST
+}
+
+post_setup_rubygems_update() {
+  cleanup_rubygems_update_setup
+}
+
+setup_rubygems_update() {
+  print_task "Setup Rubygems-update $RUBYGEMS_UPDATE_VER"
+
+  setup_rubygems_update_env_variables
+
+  if [ "$($RUBY_BIN/gem --version)" == "$RUBYGEMS_UPDATE_VER" ]
+  then
+    if ! $FORCE_INSTALL
+    then
+      print_line "Rubygems-update $RUBYGEMS_UPDATE_VER setup is skipped: installed ALREADY"
+      return
+    fi
+  fi
+  
+  make_rubygems_update_directories
+  install_rubygems_update
+  post_setup_rubygems_update
+}

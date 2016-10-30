@@ -27,16 +27,20 @@ expand_path() {
 configure_genesis_default_options() {
   print_line "Configure Genesis default options"
 
-  LUBAN_ROOT_PATH="/opt/luban"
+  DEFAULT_LUBAN_ROOT_PATH="/opt/luban"
+  LUBAN_ROOT_PATH=$DEFAULT_LUBAN_ROOT_PATH
   FORCE_INSTALL=false
+  AUTHEN_KEY_TYPE="rsa"
 
   OPENSSL_VER="1.0.2j"
   OPENSSL_SRC_URL="ftp://ftp.openssl.org/source"
   OPENSSL_OLD_SRC_URL="ftp://ftp.openssl.org/source/old/${OPENSSL_VER%%[a-z]*}"
 
   RUBY_VER="2.3.1"
-  RUBY_SRC_URL="http://ftp.ruby-lang.org/pub/ruby/${RUBY_VER%.*}"
+  RUBY_SRC_URL="https://cache.ruby-lang.org/pub/ruby/${RUBY_VER%.*}"
   RDOC_OPTIONS="--no-document"
+  RUBYGEMS_UPDATE_VER="2.6.7"
+  RUBYGEMS_UPDATE_SRC_URL="https://rubygems.org/downloads"
   BUNDLER_VER=""
   LUBAN_VER=""
 }
@@ -95,6 +99,7 @@ load_genesis_modules() {
 
   source $GENESIS_ROOT/lib/install-openssl
   source $GENESIS_ROOT/lib/install-ruby
+  source $GENESIS_ROOT/lib/install-rubygems-update
   source $GENESIS_ROOT/lib/install-gems
   source $GENESIS_ROOT/lib/install-uber
 }
@@ -110,6 +115,7 @@ init_genesis() {
 build_genesis() {
   setup_openssl
   setup_ruby
+  setup_rubygems_update
   setup_default_gems
   setup_uber
 }
