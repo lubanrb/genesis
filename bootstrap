@@ -3,10 +3,19 @@
 set -e # exit the script if any statement returns a non-true result
 
 retrieve_genesis() {
-  # Download Genesis master branch from Github
-  curl -s -o /tmp/genesis-master.tar.gz -L https://github.com/lubanrb/genesis/archive/master.tar.gz
-  # Untar Genesis to /tmp
-  tar -xzf /tmp/genesis-master.tar.gz -C /tmp/
+  if [ $(basename $0) == "bash" ];
+  then
+    # Download Genesis master branch from Github
+    curl -s -o /tmp/genesis-master.tar.gz -L https://github.com/lubanrb/genesis/archive/master.tar.gz
+    # Untar Genesis to /tmp
+    tar -xzf /tmp/genesis-master.tar.gz -C /tmp/
+  else
+    # Create Genesis archive from the local Git repository
+    mkdir /tmp/genesis-master
+    cd $(dirname $0)
+    tar cf - * | (cd /tmp/genesis-master && tar xfp -)
+    cd $WORK_DIR
+  fi
 }
 
 retrieve_uber() {
@@ -19,6 +28,7 @@ retrieve_uber() {
 cleanup() {
   cleanup_genesis
   cleanup_uber
+  cd $WORK_DIR
   unset WORK_DIR
 }
 
