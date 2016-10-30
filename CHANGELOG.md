@@ -1,5 +1,17 @@
 # Change log
 
+## Version 0.3.3 (Oct 27, 2016)
+
+New features:
+  * Used Rubygems-update to ensure Rubygems up-to-date after Ruby installation
+  * Setup promptless authentication and cleanup installation for Lubbase in Uber
+    * Hence, Lubbase provision could be done directly
+    * AUTHEN_KEY_TYPE is added to configure SSH key type
+
+Minor enhancements:
+  * bootstrap script in Genesis now can be executed locally
+    * This is handy especially when Genesis development
+
 ## Version 0.3.2 (Oct 13, 2016)
 
 Minor enhancements:
