@@ -7,8 +7,6 @@
 bundle_gems() {
   print_step "Bundle required gems"
 
-  cd $WORK_DIR/uber
-  
   if $LUBBASE_BIN/bundle check > /dev/null
   then
     print_line "Bundle gems setup is skipped: bundled ALREADY"
@@ -18,15 +16,64 @@ bundle_gems() {
     $LUBBASE_BIN/gem install --force --no-document --local vendor/cache/*.gem >> $RUBY_INST_LOG_FILE 2>&1
     create_gems_binstubs
   fi
-  cd $WORK_DIR
 }
 
-print_summary() {  
-  print_step
-  print_step "** ATTENTION **"
-  print_step "Run commands below to COMPLETE the Uber setup:"
-  print_line "cd uber"
-  print_line "$LUBBASE_BIN/luban $UBER_STAGE lubbase provision setup"
+setup_promptless_authen_env_variables() {
+  USER_HOME=$(eval echo ~)
+  AUTHEN_KEYS_PATH=$USER_HOME/.ssh
+  PRIVATE_KEY_FILE_PATH=$AUTHEN_KEYS_PATH/id_$AUTHEN_KEY_TYPE
+  PUBLIC_KEY_FILE_PATH=$AUTHEN_KEYS_PATH/id_$AUTHEN_KEY_TYPE.pub
+  AUTHORIZED_KEYS_FILE_PATH=$AUTHEN_KEYS_PATH/authorized_keys
+}
+
+generate_key_pairs() {
+  if [ -f $PRIVATE_KEY_FILE_PATH ] && [ -f $PUBLIC_KEY_FILE_PATH ];
+  then
+    print_line "SSH key pairs ALREADY generated"
+  else
+    print_line "Generate SSH key pairs"
+    ssh-keygen -t $AUTHEN_KEY_TYPE -f $PRIVATE_KEY_FILE_PATH -N '' >> $RUBY_INST_LOG_FILE 2>&1
+  fi
+}
+
+add_authorized_key() {
+  umask 077; echo $1 >> $AUTHORIZED_KEYS_FILE_PATH
+}
+
+setup_promptless_authen() {
+  print_step "Setup promptless authentication"
+
+  setup_promptless_authen_env_variables
+  generate_key_pairs  
+
+  PUBLIC_KEY=$(cat $PUBLIC_KEY_FILE_PATH 2>&1)
+
+  if [ -f AUTHORIZED_KEYS_FILE_PATH ];
+  then
+    if grep -v "^#" $AUTHORIZED_KEYS_FILE_PATH | grep -Fxq "$PUBLIC_KEY";
+    then
+      print_line "Public key ALREADY added to authorized keys"
+    else
+      print_line "Append public key to authorized keys"
+      add_authorized_key "$PUBLIC_KEY" >> $RUBY_INST_LOG_FILE 2>&1
+    fi
+  else
+    print_line "Add public key to authorized keys"
+    add_authorized_key "$PUBLIC_KEY" >> $RUBY_INST_LOG_FILE 2>&1
+  fi
+}
+
+provision_lubbase() {
+  print_step "Provision Lubbase in Uber"
+
+  print_line "Provision setup for Lubbase in Uber"
+  $LUBBASE_BIN/luban $UBER_STAGE lubbase provision setup >> $RUBY_INST_LOG_FILE 2>&1
+
+  print_line "Provision build for Lubbase in Uber"
+  $LUBBASE_BIN/luban $UBER_STAGE lubbase provision build >> $RUBY_INST_LOG_FILE 2>&1
+}
+
+print_summary() {
   print_step
   print_step "** NOTE **"
   print_step "To activate Uber in the current shell session:"
@@ -40,8 +87,18 @@ setup_uber() {
   print_task "Setup Uber"
   if [ ! -d "$WORK_DIR/uber" ]; then
     mv /tmp/uber-master $WORK_DIR/uber
+    if [ $LUBAN_ROOT_PATH != $DEFAULT_LUBAN_ROOT_PATH ];
+    then
+      echo luban_root_path \"$LUBAN_ROOT_PATH\" >> $WORK_DIR/uber/Lubanfile.rb
+    fi
   fi
 
+  cd $WORK_DIR/uber
+
   bundle_gems
+  setup_promptless_authen
+  provision_lubbase
   print_summary
+
+  cd $WORK_DIR
 }
