@@ -1,5 +1,10 @@
 # Change log
 
+## Version 0.3.5 (Nov 01, 2016)
+
+Minor enhancements:
+  * Upgraded Rubygems-update to version 2.6.8
+
 ## Version 0.3.4 (Oct 31, 2016)
 
 Bug fixes:
