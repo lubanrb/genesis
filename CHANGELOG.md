@@ -1,5 +1,11 @@
 # Change log
 
+## Version 0.3.6 (Nov 17, 2016)
+
+Minor enhancements:
+  * Deprecated Rubygems-update and setup Rubygems directly for Rubygems upgrade
+  * Upgraded Ruby to version 2.3.2
+
 ## Version 0.3.5 (Nov 01, 2016)
 
 Minor enhancements:
