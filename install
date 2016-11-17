@@ -36,11 +36,11 @@ configure_genesis_default_options() {
   OPENSSL_SRC_URL="ftp://ftp.openssl.org/source"
   OPENSSL_OLD_SRC_URL="ftp://ftp.openssl.org/source/old/${OPENSSL_VER%%[a-z]*}"
 
-  RUBY_VER="2.3.1"
+  RUBY_VER="2.3.2"
   RUBY_SRC_URL="https://cache.ruby-lang.org/pub/ruby/${RUBY_VER%.*}"
   RDOC_OPTIONS="--no-document"
-  RUBYGEMS_UPDATE_VER="2.6.8"
-  RUBYGEMS_UPDATE_SRC_URL="https://rubygems.org/downloads"
+  RUBYGEMS_VER="2.6.8"
+  RUBYGEMS_SRC_URL="https://rubygems.org/rubygems"
   BUNDLER_VER=""
   LUBAN_VER=""
 }
@@ -99,7 +99,7 @@ load_genesis_modules() {
 
   source $GENESIS_ROOT/lib/install-openssl
   source $GENESIS_ROOT/lib/install-ruby
-  source $GENESIS_ROOT/lib/install-rubygems-update
+  source $GENESIS_ROOT/lib/install-rubygems
   source $GENESIS_ROOT/lib/install-gems
   source $GENESIS_ROOT/lib/install-uber
 }
@@ -115,7 +115,7 @@ init_genesis() {
 build_genesis() {
   setup_openssl
   setup_ruby
-  setup_rubygems_update
+  setup_rubygems
   setup_default_gems
   setup_uber
 }

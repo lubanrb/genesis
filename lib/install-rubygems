@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+
+# ==============
+# Rubygems Setup
+# ==============
+
+setup_rubygems_env_variables() {
+  RUBYGEMS_VER_TMP=$RUBY_HOME/tmp
+  RUBYGEMS_DOWNLOADS=$LUBAN_DOWNLOADS/rubygems
+  RUBYGEMS_SRC_FILE=$RUBYGEMS_DOWNLOADS/rubygems-$RUBYGEMS_VER.tgz
+  RUBYGEMS_VER_INST=$RUBYGEMS_VER_TMP/rubygems-$RUBYGEMS_VER
+  RUBYGEMS_INST_LOG=$RUBY_HOME/log/rubygems-$RUBYGEMS_VER
+  RUBYGEMS_INST_LOG_FILE=$RUBYGEMS_INST_LOG/rubygems-$RUBYGEMS_VER-install-$(date +%Y%m%d-%H%M%S).log
+}
+
+make_rubygems_directories() {
+  print_step "Make Rubygems directories"
+
+  mkdir -p $RUBYGEMS_INST_LOG
+  mkdir -p $RUBYGEMS_DOWNLOADS
+}
+
+install_rubygems() {
+  print_step "Install Rubygems $RUBYGMES_VER"
+
+  if [ ! -f "$RUBYGEMS_SRC_FILE" ];
+  then
+    print_line "Downloading Rubygems source"
+    curl -L -o $RUBYGEMS_SRC_FILE $RUBYGEMS_SRC_URL/rubygems-$RUBYGEMS_VER.tgz >> $RUBYGEMS_INST_LOG_FILE 2>&1
+  fi
+
+  print_line  "Untar'ing Rubygems source"
+  tar -xzf $RUBYGEMS_SRC_FILE -C $RUBYGEMS_VER_TMP >> $RUBYGEMS_INST_LOG_FILE 2>&1
+  cd $RUBYGEMS_VER_INST
+
+  print_line "Configuring Rubygems"
+  $RUBY_BIN/ruby setup.rb config $RDOC_OPTIONS >> $RUBYGEMS_INST_LOG_FILE 2>&1
+
+  print_line "Building Rubygems"
+  $RUBY_BIN/ruby setup.rb setup >> $RUBYGEMS_INST_LOG_FILE 2>&1
+
+  print_line "Installing Rubygems"
+  $RUBY_BIN/ruby setup.rb install >> $RUBYGEMS_INST_LOG_FILE 2>&1
+
+  cd $DEPLOY_ROOT
+}
+
+cleanup_rubygems_setup() {
+  print_line "Clean up Rubygems setup"
+
+  rm -fr $RUBYGEMS_VER_INST
+}
+
+post_setup_rubygems() {
+  cleanup_rubygems_setup
+}
+
+setup_rubygems() {
+  print_task "Setup Rubygems $RUBYGEMS_VER"
+
+  setup_rubygems_env_variables
+
+  if [ "$($RUBY_BIN/gem --version)" == "$RUBYGEMS_VER" ]
+  then
+    if ! $FORCE_INSTALL
+    then
+      print_line "Rubygems $RUBYGEMS_VER setup is skipped: installed ALREADY"
+      return
+    fi
+  fi
+  
+  make_rubygems_directories
+  install_rubygems
+  post_setup_rubygems
+}
