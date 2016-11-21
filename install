@@ -42,6 +42,7 @@ configure_genesis_default_options() {
   RUBYGEMS_VER="2.6.8"
   RUBYGEMS_SRC_URL="https://rubygems.org/rubygems"
   BUNDLER_VER=""
+  BUNDLE_PATH="vendor/bundle"
   LUBAN_VER=""
 }
 
