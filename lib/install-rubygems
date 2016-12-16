@@ -34,13 +34,13 @@ install_rubygems() {
   cd $RUBYGEMS_VER_INST
 
   print_line "Configuring Rubygems"
-  $RUBY_BIN/ruby setup.rb config $RDOC_OPTIONS >> $RUBYGEMS_INST_LOG_FILE 2>&1
+  $RUBY_BIN/ruby setup.rb config >> $RUBYGEMS_INST_LOG_FILE 2>&1
 
   print_line "Building Rubygems"
   $RUBY_BIN/ruby setup.rb setup >> $RUBYGEMS_INST_LOG_FILE 2>&1
 
   print_line "Installing Rubygems"
-  $RUBY_BIN/ruby setup.rb install >> $RUBYGEMS_INST_LOG_FILE 2>&1
+  $RUBY_BIN/ruby setup.rb install $RDOC_OPTIONS >> $RUBYGEMS_INST_LOG_FILE 2>&1
 
   cd $DEPLOY_ROOT
 }
