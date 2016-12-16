@@ -76,18 +76,28 @@ print_summary() {
 
 setup_uber() {
   print_task "Setup Uber"
-  if [ ! -d "$WORK_DIR/uber" ]; then
-    mv /tmp/uber-master $WORK_DIR/uber
-    if [ $LUBAN_ROOT_PATH != $DEFAULT_LUBAN_ROOT_PATH ];
+  if [ ! -d "$LUBAN_PROJECTS_PATH/uber" ]
+  then
+    mv /tmp/uber-$UBER_TAG $LUBAN_PROJECTS_PATH/uber
+
+    if [ $LUBAN_ROOT_PATH != $DEFAULT_LUBAN_ROOT_PATH ]
     then
-      echo luban_root_path \"$LUBAN_ROOT_PATH\" >> $WORK_DIR/uber/Lubanfile.rb
+      echo luban_root_path \"$LUBAN_ROOT_PATH\" >> $LUBAN_PROJECTS_PATH/uber/Lubanfile.rb
+    fi
+
+    if $SKIP_PROMPTLESS_AUTHEN
+    then
+      echo skip_promptless_authen true >> $LUBAN_PROJECTS_PATH/uber/Lubanfile.rb
     fi
   fi
 
-  cd $WORK_DIR/uber
+  cd $LUBAN_PROJECTS_PATH/uber
 
   bundle_gems
-  setup_promptless_authen
+  if ! $SKIP_PROMPTLESS_AUTHEN
+  then
+    setup_promptless_authen
+  fi
   provision_lubbase
   print_summary
 

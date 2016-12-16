@@ -28,22 +28,22 @@ configure_genesis_default_options() {
   print_line "Configure Genesis default options"
 
   DEFAULT_LUBAN_ROOT_PATH="/opt/luban"
-  LUBAN_ROOT_PATH=$DEFAULT_LUBAN_ROOT_PATH
-  FORCE_INSTALL=false
-  AUTHEN_KEY_TYPE="rsa"
+  LUBAN_ROOT_PATH="${LUBAN_ROOT_PATH:-$DEFAULT_LUBAN_ROOT_PATH}"
+  FORCE_INSTALL=${FORCE_INSTALL:-false}
+  AUTHEN_KEY_TYPE="${AUTHEN_KEY_TYPE:-rsa}"
+  SKIP_PROMPTLESS_AUTHEN=${SKIP_PROMPTLESS_AUTHEN:-false}
 
-  OPENSSL_VER="1.0.2j"
-  OPENSSL_SRC_URL="ftp://ftp.openssl.org/source"
-  OPENSSL_OLD_SRC_URL="ftp://ftp.openssl.org/source/old/${OPENSSL_VER%%[a-z]*}"
+  OPENSSL_VER="${OPENSSL_VER:-1.0.2j}"
+  OPENSSL_SRC_URL="${OPENSSL_SRC_URL:-ftp://ftp.openssl.org/source}"
+  OPENSSL_OLD_SRC_URL="${OPENSSL_OLD_SRC_URL:-ftp://ftp.openssl.org/source/old/${OPENSSL_VER%%[a-z]*}}"
 
-  RUBY_VER="2.3.2"
-  RUBY_SRC_URL="https://cache.ruby-lang.org/pub/ruby/${RUBY_VER%.*}"
-  RDOC_OPTIONS="--no-document"
-  RUBYGEMS_VER="2.6.8"
-  RUBYGEMS_SRC_URL="https://rubygems.org/rubygems"
-  BUNDLER_VER=""
-  BUNDLE_PATH="vendor/bundle"
-  LUBAN_VER=""
+  RUBY_VER="${RUBY_VER:-2.3.3}"
+  RUBY_SRC_URL="${RUBY_SRC_URL:-https://cache.ruby-lang.org/pub/ruby/${RUBY_VER%.*}}"
+  RDOC_OPTIONS="${RDOC_OPTIONS:---no-document}"
+  RUBYGEMS_VER="${RUBYGEMS_VER:-2.6.8}"
+  RUBYGEMS_SRC_URL="${RUBYGEMS_SRC_URL:-https://rubygems.org/rubygems}"
+  BUNDLER_VER="${BUNDLER_VER:-}"
+  BUNDLE_PATH="${BUNDLE_PATH:-vendor/bundle}"
 }
 
 configure_genesis_constom_options() {
@@ -65,6 +65,7 @@ configure_genesis_system_options() {
   LUBAN_PKG="$UBER_ENV_ROOT/.luban/pkg"
   LUBAN_TMP="$LUBAN_ROOT_PATH/tmp"
   LUBAN_DOWNLOADS="$LUBAN_ROOT_PATH/downloads"
+  LUBAN_PROJECTS_PATH=$LUBAN_ROOT_PATH/projects
   LUBBASE_ROOT="$UBER_ENV_ROOT/lubbase"
   LUBBASE_BIN="$LUBBASE_ROOT/bin"
   HARDWARE_NAME=$(uname -m)
@@ -91,6 +92,7 @@ make_genesis_directories() {
   mkdir -p $LUBAN_PKG
   mkdir -p $LUBAN_TMP
   mkdir -p $LUBAN_DOWNLOADS
+  mkdir -p $LUBAN_PROJECTS_PATH
   mkdir -p $LUBBASE_ROOT
   mkdir -p $LUBBASE_BIN
 }
