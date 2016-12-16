@@ -2,53 +2,68 @@
 
 set -e # exit the script if any statement returns a non-true result
 
+setup_bootstrap_env_variables() {
+  # Set default Genesis tag
+  GENESIS_TAG="${GENESIS_TAG:-master}"
+  # Set default Uber tag
+  UBER_TAG="${UBER_TAG:-master}"
+  # Set default work directory
+  WORK_DIR="${WORK_DIR:-$(pwd)}"
+
+  export GENESIS_TAG
+  export UBER_TAG
+  export WORK_DIR  
+}
+
 retrieve_genesis() {
-  if [ $(basename $0) == "bash" ];
+  if [ $(basename $0) == "bash" ]
   then
-    # Download Genesis master branch from Github
-    curl -s -o /tmp/genesis-master.tar.gz -L https://github.com/lubanrb/genesis/archive/master.tar.gz
+    # Download Genesis from Github
+    curl -s -o /tmp/genesis-$GENESIS_TAG.tar.gz -L https://github.com/lubanrb/genesis/archive/$GENESIS_TAG.tar.gz
     # Untar Genesis to /tmp
-    tar -xzf /tmp/genesis-master.tar.gz -C /tmp/
+    tar -xzf /tmp/genesis-$GENESIS_TAG.tar.gz -C /tmp/
   else
     # Create Genesis archive from the local Git repository
-    mkdir /tmp/genesis-master
+    mkdir /tmp/genesis-$GENESIS_TAG
     cd $(dirname $0)
-    tar cf - * | (cd /tmp/genesis-master && tar xfp -)
+    tar cf - * | (cd /tmp/genesis-$GENESIS_TAG && tar xfp -)
     cd $WORK_DIR
   fi
 }
 
 retrieve_uber() {
-  # Download Uber master branch from Github
-  curl -s -o /tmp/uber-master.tar.gz -L https://github.com/lubanrb/uber/archive/master.tar.gz
+  # Download Uber from Github
+  curl -s -o /tmp/uber-$UBER_TAG.tar.gz -L https://github.com/lubanrb/uber/archive/$UBER_TAG.tar.gz
   # Untar Uber to /tmp
-  tar -xzf /tmp/uber-master.tar.gz -C /tmp/
+  tar -xzf /tmp/uber-$UBER_TAG.tar.gz -C /tmp/
 }
 
 cleanup() {
   cleanup_genesis
   cleanup_uber
   cd $WORK_DIR
+
   unset WORK_DIR
+  unset UBER_TAG
+  unset GENESIS_TAG
 }
 
 cleanup_genesis() {
   # Clean up Genesis
-  rm -fr /tmp/genesis-master
-  rm -f /tmp/genesis-master.tar.gz
+  rm -fr /tmp/genesis-$GENESIS_TAG
+  rm -f /tmp/genesis-$GENESIS_TAG.tar.gz
 }
 
 cleanup_uber() {
   # Clean up Uber
-  rm -fr /tmp/uber-master
-  rm -f /tmp/uber-master.tar.gz
+  rm -fr /tmp/uber-$UBER_TAG
+  rm -f /tmp/uber-$UBER_TAG.tar.gz
 }
 
 # Upon exit, remove tmp files
 trap "cleanup" INT TERM EXIT
 
-WORK_DIR=$(pwd)
-export WORK_DIR
+setup_bootstrap_env_variables
 retrieve_genesis
 retrieve_uber
-/tmp/genesis-master/install $@
+/tmp/genesis-$GENESIS_TAG/install $@
