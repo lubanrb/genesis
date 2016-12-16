@@ -1,5 +1,22 @@
 # Change log
 
+## Version 0.4.5 (Dec 16, 2016)
+
+Minor enhancements:
+  * Genesis branch/tag in bootstrap can be specified thru environment variable, GENESIS_TAG
+    * For instance, GENESIS_TAG="v0.4.1"
+    * By default, GENESIS_TAG is set to "master"
+  * Uber branch/tag in bootstrap can be specified thru environment variable, UBER_TAG
+    * For instance, UBER_TAG="v0.3.3"
+    * By default, UBER_TAG is set to "master"
+  * Refactored environment variables setup for bootstrap as a result
+  * Added flag, SKIP_PROMPTLESS_AUTHEN, to control if need to setup promptless authentication
+  * Supported set Genesis configurations thru environment variables
+    * Precedence of Genesis configurations: config file > environment variables > default values
+  * Added default path for Luban deployment projects to be /opt/luban/projects
+  * Bump up Ruby version to 2.3.3
+  * Updated Genesis configuration exapmles
+
 ## Version 0.4.0 (Nov 21, 2016)
 
 New features:
