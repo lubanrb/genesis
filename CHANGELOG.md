@@ -1,6 +1,6 @@
 # Change log
 
-## Version 0.4.5 (Dec 16, 2016)
+## Version 0.4.6 (Dec 17, 2016)
 
 Minor enhancements:
   * Genesis branch/tag in bootstrap can be specified thru environment variable, GENESIS_TAG
@@ -15,7 +15,13 @@ Minor enhancements:
     * Precedence of Genesis configurations: config file > environment variables > default values
   * Added default path for Luban deployment projects to be /opt/luban/projects
   * Bump up Ruby version to 2.3.3
+  * Configured Ruby without Tcl/Tk and static library
+  * Configured Ruby with "--enable-shared" to build shared Ruby library
+  * Removed static Ruby library manually
   * Updated Genesis configuration exapmles
+
+Bug fixes:
+  * Disabled document generation for Rubygems
 
 ## Version 0.4.0 (Nov 21, 2016)
 
