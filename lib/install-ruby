@@ -54,13 +54,16 @@ install_ruby() {
   cd $RUBY_VER_INST
 
   print_line "Configuring Ruby"
-  ./configure --prefix=$RUBY_VER_DIR --disable-install-doc --with-opt-dir=$OPENSSL_VER_DIR >> $RUBY_INST_LOG_FILE 2>&1
+  ./configure --prefix=$RUBY_VER_DIR --disable-install-doc --enable-shared --without-tcl --without-tk --with-opt-dir=$OPENSSL_VER_DIR >> $RUBY_INST_LOG_FILE 2>&1
 
   print_line "Building Ruby"
   make >> $RUBY_INST_LOG_FILE 2>&1
 
   print_line "Installing Ruby"
   make install >> $RUBY_INST_LOG_FILE 2>&1
+
+  # Remove static Ruby library to save disk space
+  rm -f $RUBY_VER_DIR/lib/libruby-static.a
 
   cd $DEPLOY_ROOT 
 }
