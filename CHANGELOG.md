@@ -1,5 +1,10 @@
 # Change log
 
+## Version 0.4.7 (Jan 04, 2017)
+
+Minor enhancements:
+  * Relocated packages installation path to luban root
+
 ## Version 0.4.6 (Dec 17, 2016)
 
 Minor enhancements:
