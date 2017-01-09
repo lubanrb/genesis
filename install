@@ -62,12 +62,13 @@ configure_genesis_system_options() {
   UBER_ENV="uber"
   DEPLOY_ROOT=$(dirname $GENESIS_ROOT)
   UBER_ENV_ROOT="$LUBAN_ROOT_PATH/env/$UBER_STAGE.$UBER_ENV"
-  LUBAN_PKG="$LUBAN_ROOT_PATH/packages/$UBER_ENV"
   LUBAN_TMP="$LUBAN_ROOT_PATH/tmp"
   LUBAN_DOWNLOADS="$LUBAN_ROOT_PATH/downloads"
+  LUBAN_PKGS="$LUBAN_ROOT_PATH/packages"
   LUBAN_PROJECTS_PATH=$LUBAN_ROOT_PATH/projects
   LUBBASE_ROOT="$UBER_ENV_ROOT/lubbase"
   LUBBASE_BIN="$LUBBASE_ROOT/bin"
+  LUBBASE_PKGS="$LUBAN_PKGS/$UBER_ENV/lubbase"
   HARDWARE_NAME=$(uname -m)
   OS_NAME=$(uname -s)
   if [ "$OS_NAME" == "Darwin" ]
@@ -89,12 +90,12 @@ configure_genesis() {
 make_genesis_directories() {
   print_step "Make Genesis directories"
 
-  mkdir -p $LUBAN_PKG
   mkdir -p $LUBAN_TMP
   mkdir -p $LUBAN_DOWNLOADS
   mkdir -p $LUBAN_PROJECTS_PATH
   mkdir -p $LUBBASE_ROOT
   mkdir -p $LUBBASE_BIN
+  mkdir -p $LUBBASE_PKGS
 }
 
 load_genesis_modules() {

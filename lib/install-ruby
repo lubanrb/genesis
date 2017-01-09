@@ -5,7 +5,7 @@
 # ==========
 
 setup_ruby_env_variables() {
-  RUBY_HOME=$LUBAN_PKG/ruby
+  RUBY_HOME=$LUBBASE_PKGS/ruby
   RUBY_VER_DIR=$RUBY_HOME/versions/$RUBY_VER
   RUBY_VER_TMP=$RUBY_HOME/tmp
   RUBY_DOWNLOADS=$LUBAN_DOWNLOADS/ruby

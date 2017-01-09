@@ -5,7 +5,7 @@
 # =============
 
 setup_openssl_env_variables() {
-  OPENSSL_HOME=$LUBAN_PKG/openssl
+  OPENSSL_HOME=$LUBBASE_PKGS/openssl
   OPENSSL_VER_DIR=$OPENSSL_HOME/versions/$OPENSSL_VER
   OPENSSL_VER_TMP=$OPENSSL_HOME/tmp
   OPENSSL_DOWNLOADS=$LUBAN_DOWNLOADS/openssl
